@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="sg.ndi.sample">
+
+    <queries>
+        <package android:name="sg.ndi.sp" />
+        <package android:name="sg.ndi.sp.dev" />
+    </queries>
+
+    <application
+        android:allowBackup="false"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.NDIRpSample"
+        tools:targetApi="31"
+        android:name=".App"
+        android:usesCleartextTraffic="true"
+        >
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:theme="@style/Theme.NDIRpSample">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+            <!--                ndisample://ndisample.gov.sg/singpasslogin-->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="test"
+                    android:host="test.gov.sg"/>
+            </intent-filter>
+
+        </activity>
+
+        <!-- needed for https://github.com/openid/AppAuth-Android/issues/248 -->
+        <!-- sg.gov.singpass.app://ndisample.gov.sg/rp/sample -->
+        <activity
+            android:name="net.openid.appauth.RedirectUriReceiverActivity"
+            android:exported="true"
+            tools:node="replace">
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="sg.gov.singpass.app"
+                    android:host="ndisample.gov.sg"
+                    android:path="/rp/sample"/>
+            </intent-filter>
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="sg.gov.singpass.app"
+                    android:host="ndisample.gov.sg"
+                    android:path="/rp/sample/"/>
+            </intent-filter>
+
+        </activity>
+
+        <!--            <intent-filter android:autoVerify="true">-->
+        <!--                <action android:name="android.intent.action.VIEW"/>-->
+        <!--                <category android:name="android.intent.category.DEFAULT"/>-->
+        <!--                <category android:name="android.intent.category.BROWSABLE"/>-->
+        <!--                <data android:scheme="https"-->
+        <!--                    android:host="app.singpass.gov.sg"-->
+        <!--                    android:path="/rp/sample"/>-->
+        <!--            </intent-filter>-->
+
+        <!--            <intent-filter android:autoVerify="true">-->
+        <!--                <action android:name="android.intent.action.VIEW"/>-->
+        <!--                <category android:name="android.intent.category.DEFAULT"/>-->
+        <!--                <category android:name="android.intent.category.BROWSABLE"/>-->
+        <!--                <data android:scheme="https"-->
+        <!--                    android:host="app.singpass.gov.sg"-->
+        <!--                    android:path="/rp/sample/"/>-->
+        <!--            </intent-filter>-->
+
+        <!--            <intent-filter>-->
+        <!--                <action android:name="android.intent.action.VIEW"/>-->
+        <!--                <category android:name="android.intent.category.DEFAULT"/>-->
+        <!--                <category android:name="android.intent.category.BROWSABLE"/>-->
+        <!--                <data android:scheme="ndisample"-->
+        <!--                    android:host="app.singpass.gov.sg"-->
+        <!--                    android:path="/rp/sample"/>-->
+        <!--            </intent-filter>-->
+
+        <!--            <intent-filter>-->
+        <!--                <action android:name="android.intent.action.VIEW"/>-->
+        <!--                <category android:name="android.intent.category.DEFAULT"/>-->
+        <!--                <category android:name="android.intent.category.BROWSABLE"/>-->
+        <!--                <data android:scheme="ndisample"-->
+        <!--                    android:host="app.singpass.gov.sg"-->
+        <!--                    android:path="/rp/sample/"/>-->
+        <!--            </intent-filter>-->
+
+    </application>
+
+</manifest>

@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Singpass Login Demo</string>
+
+    <string name="custom_scheme_redirect_uri">sg.gov.singpass.app://ndisample.gov.sg/rp/sample</string>
+    <string name="client_id">xKdfiRj368NJ2F0OVlBjdjBBYdEc46gp</string>
+    <string name="auth_scope">openid</string>
+    <string name="grant_type">authorization_code</string>
+    <string name="client_assertion_type">urn:ietf:params:oauth:client-assertion-type:jwt-bearer</string>
+
+    <string name="myinfo_client_id">STG2-MYINFO-SELF-TEST</string>
+    <string name="myinfo_scope">name</string>
+</resources>
