@@ -239,7 +239,7 @@ viewModel.authIntent?.run {
 Toast.makeText(app, "Error occurred: Intent is null!", Toast.LENGTH_SHORT).show()
 ```
 
-## Demo Video
+## Demo Video/s
 
-MyInfo MockPass 
-![myinfo_demo](MyInfo%20PKCE%20flow.gif | width=300)
+MyInfo Mockpass Demo
+<img src="MyInfo%20PKCE%20flow.gif" alt="Myinfo Mockpass flow video" width="300px" height="666.5px"></img>
