@@ -241,6 +241,6 @@ Toast.makeText(app, "Error occurred: Intent is null!", Toast.LENGTH_SHORT).show(
 
 ## Demo Video/s
 
-| MyInfo Mockpass Demo (Chrome Custom Tab)  | MyInfo Mockpass Demo (External browser fallback)                                                                |
-|-------------------------------------------|-----------------------------------------------------------------------------------------------------------------|
-| <img src="MyInfo%20PKCE%20flow.gif" alt="Myinfo Mockpass flow video" width="300px" height="666.5px"></img> | <img src="myinfo_pkce_browser_falback.gif" alt="Myinfo Mockpass flow video" width="300px" height="480px"></img> |
+| MyInfo Mockpass Demo<br>(Chrome Custom Tab)                                                            | MyInfo Mockpass Dem<br>(External browser fallback)                                                               |
+|--------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------|
+| <img src="myinfo_pkce_cct.gif" alt="Myinfo Mockpass flow video" width="216.05px" height="480px"></img> | <img src="myinfo_pkce_browser_fallback.gif" alt="Myinfo Mockpass flow video" width="300px" height="480px"></img> |
