@@ -46,7 +46,7 @@ This repository has codes for a sample Android application implementing the reco
    <br><br>
 2. Implement api call to **RP Backend** to request for `code_challenge`, `code_challenge_method`, `state` and `nonce` if required and other parameters.
    <br><br>
-3. Implement api call to send `authorization code`, `state` and other needed parameters. back to **RP Backend**.
+3. Implement api call to send `authorization code`, `state` and other needed parameters back to **RP Backend**.
 
 # Other Notes
 - Do **NOT** use the query param `app_launch_url` when opening the authorization endpoint webpage for Android as it will break the flow with [AppAuth](https://github.com/openid/AppAuth-Android) library.
