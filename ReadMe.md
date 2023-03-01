@@ -244,3 +244,7 @@ Toast.makeText(app, "Error occurred: Intent is null!", Toast.LENGTH_SHORT).show(
 | MyInfo Mockpass Demo<br>(Chrome Custom Tab)                                                            | MyInfo Mockpass Dem<br>(External browser fallback)                                                               |
 |--------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------|
 | <img src="myinfo_pkce_cct.gif" alt="Myinfo Mockpass flow video" width="216.05px" height="480px"></img> | <img src="myinfo_pkce_browser_fallback.gif" alt="Myinfo Mockpass flow video" width="300px" height="480px"></img> |
+
+## Polling 
+
+Vote [here](https://github.com/singpass/Android-Singpass-in-app-browser-login-demo/discussions/1) to indicate if you would like a library that handles all these implementation
