@@ -14,6 +14,7 @@ This repository has codes for a sample Android application implementing the reco
 
 # Sequence Diagram
 ![Sequence Diagram](pkce_sequence_diagram.png)
+*RP stands for **Relying Party**
 
 - 1a) Call **RP Backend** to obtain backend generate `code_challenge`, `code_challenge_method` along with `state` and `nonce` if required. #
 <br><br>
@@ -52,10 +53,10 @@ This repository has codes for a sample Android application implementing the reco
 - Do **NOT** use the query param `app_launch_url` when opening the authorization endpoint webpage for Android as it will break the flow with [AppAuth](https://github.com/openid/AppAuth-Android) library.
   <br><br>
 - Recommended to **NOT** use `redirect_uri` with a `https` scheme e.g. https://rp.redirectUri/callback due to potential UX issues when redirecting back to **RP Mobile App** from the Chrome Custom Tabs or external web browser. Use [Android DeepLinks](https://developer.android.com/training/app-links#deep-links) instead as the `redirect_uri`. e.g. sg.gov.singpass.app://ndisample.gov.sg/rp/sample
+  <br><br>
+- The sample mobile application code in this repository receives the token endpoint response from the RP Backend, RPs should **NOT** do this, **RP Backend** should get the token response and do your appropriate processing. 
 
 # Implementation Details
-
----
 
 ## Required dependencies
 
