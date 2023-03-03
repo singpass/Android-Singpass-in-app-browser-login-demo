@@ -14,6 +14,7 @@ This repository has codes for a sample Android application implementing the reco
 
 # Sequence Diagram
 ![Sequence Diagram](pkce_sequence_diagram.png)
+<br>
 *RP stands for **Relying Party**
 
 - 1a) Call **RP Backend** to obtain backend generate `code_challenge`, `code_challenge_method` along with `state` and `nonce` if required. #
