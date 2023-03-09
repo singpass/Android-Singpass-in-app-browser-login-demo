@@ -243,12 +243,15 @@ Toast.makeText(app, "Error occurred: Intent is null!", Toast.LENGTH_SHORT).show(
 
 ## Demo Video/s
 
-| MyInfo Mockpass Demo<br>(Chrome Custom Tab) | MyInfo Mockpass Demo<br>(External browser fallback) |     | Singpass Demo<br>(Chrome Custom Tab) | Singpass Demo<br>(External browser fallback) |
-|---|---|-----|---|---|
-| <img src="myinfo_pkce_cct.gif" alt="Myinfo Mockpass flow video" width="216.05px" height="480px"></img> | <img src="myinfo_pkce_browser_fallback.gif" alt="Myinfo Mockpass flow video" width="300px" height="480px"></img> |     |  <img src="singpass_pkce_cct.gif" alt="Singpass flow video" width="216.05px" height="480px"></img> | <img src="singpass_pkce_browser_fallback.gif" alt="Singpass flow video" width="300px" height="480px"></img> |
+### MyInfo Consent
+| MyInfo Mockpass Demo<br>(Chrome Custom Tab) | MyInfo Mockpass Demo<br>(External browser fallback) |     
+|---|---|
+| <img src="myinfo_pkce_cct.gif" alt="Myinfo Mockpass flow video" width="216.05px" height="480px"></img> | <img src="myinfo_pkce_browser_fallback.gif" alt="Myinfo Mockpass flow video" width="300px" height="480px"></img> |
 
-
-
+### Singpass Login
+| Singpass Demo<br>(Chrome Custom Tab) | Singpass Demo<br>(External browser fallback) |
+|---|---|
+|  <img src="singpass_pkce_cct.gif" alt="Singpass flow video" width="216.05px" height="480px"></img> | <img src="singpass_pkce_browser_fallback.gif" alt="Singpass flow video" width="300px" height="480px"></img> |
 
 ## Polling 
 
