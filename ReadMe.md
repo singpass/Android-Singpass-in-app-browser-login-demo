@@ -12,6 +12,8 @@ authorization servers to support such usage.
 
 This repository has codes for a sample Android application implementing the recommended [Proof Key for Code Exchange (PKCE)](https://www.rfc-editor.org/rfc/rfc7636) for Singpass logins. The application will demonstrate the Singpass login flow while utilizing [Chrome Custom Tabs](https://developer.chrome.com/docs/android/custom-tabs/#:~:text=Custom%20Tabs%20is%20a%20browser,to%20resort%20to%20a%20WebView.) or external mobile web browser along with PKCE leveraging on the Android [AppAuth](https://github.com/openid/AppAuth-Android) library.
 
+
+
 # Sequence Diagram
 ![Sequence Diagram](pkce_sequence_diagram.png)
 <br>
@@ -42,6 +44,7 @@ This repository has codes for a sample Android application implementing the reco
 1. Implement endpoint to serve `code_challenge`, `code_challenge_method`, `state`, `nonce` and other parameters needed for **RP Mobile App** to initiate the login flow.
    <br><br>
 2. Implement endpoint in receive `authorization code`, `state` and other required parameters.
+3. Register your new `redirect_uri` for your OAuth client_id
 
 # Potential changes/enhancements for RP Mobile App
 1. Integrate [AppAuth](https://github.com/openid/AppAuth-Android) library to handle launching of authorization endpoint webpage in a [Chrome Custom Tabs](https://developer.chrome.com/docs/android/custom-tabs/#:~:text=Custom%20Tabs%20is%20a%20browser,to%20resort%20to%20a%20WebView.) or external mobile web browser.
@@ -53,9 +56,16 @@ This repository has codes for a sample Android application implementing the reco
 # Other Notes
 - Do **NOT** use the query param `app_launch_url` when opening the authorization endpoint webpage for Android as it will break the flow with [AppAuth](https://github.com/openid/AppAuth-Android) library.
   <br><br>
-- Recommended to **NOT** use `redirect_uri` with a `https` scheme e.g. https://rp.redirectUri/callback due to potential UX issues when redirecting back to **RP Mobile App** from the Chrome Custom Tabs or external web browser. Use [Android DeepLinks](https://developer.android.com/training/app-links#deep-links) instead as the `redirect_uri`. e.g. sg.gov.singpass.app://ndisample.gov.sg/rp/sample
+- Recommended to **NOT** use `redirect_uri` with a `https` scheme e.g. https://rp.redirectUri/callback due to potential UX issues when redirecting back to **RP Mobile App** from the Chrome Custom Tabs or external web browser. Use [Android DeepLinks](https://developer.android.com/training/app-links#deep-links) instead as the `redirect_uri`. e.g. sg.gov.singpass.app://ndisample.gov.sg/rp/sample*
   <br><br>
 - The sample mobile application code in this repository receives the token endpoint response from the RP Backend, RPs should **NOT** do this, **RP Backend** should get the token response and do your appropriate processing. 
+
+&#8203;*If you ***really need*** to use https scheme for `redirect_uri`, please add in a query parameter, `redirect_uri_https_type=app_claimed_https` when launching the authorization endpoint in the in-app browser. (only for direct Singpass logins, not applicable to MyInfo logins).
+
+e.g.
+```
+https://stg-id.singpass.gov.sg/auth?redirect_uri=https%3A%2F%2Fapp.singpass.gov.sg%2Frp%2Fsample&client_id=ikivDlY5OlOHQVKb8ZIKd4LSpr3nkKsK&response_type=code&state=9_fVucO3cHJIIjR50wr2ctFPYIJLMt_NV6rvLBNQxlztWSCCWbCYMkesXdBC93lX&nonce=7d0c9f09-1c1a-400e-b026-77cc7bc89cd0&scope=openid&code_challenge=ZnRSoTcoIncnebg0mCqNT-E5fbRNQ8zcYkly52-qWxw&code_challenge_method=S256&redirect_uri_https_type=app_claimed_https
+```
 
 # Implementation Details
 
@@ -95,7 +105,27 @@ Configure [AppAuth](https://github.com/openid/AppAuth-Android) RedirectUriReceiv
             android:host="ndisample.gov.sg"
             android:path="/rp/sample/"/>
     </intent-filter>
-    
+
+    <!--  This is for when you need to use https scheme redirect_uri  -->
+    <!--  Once again we emphasize that we do NOT recommend using https scheme  -->
+    <intent-filter android:autoVerify="true">
+        <action android:name="android.intent.action.VIEW"/>
+        <category android:name="android.intent.category.DEFAULT"/>
+        <category android:name="android.intent.category.BROWSABLE"/>
+        <data android:scheme="https"
+            android:host="app.singpass.gov.sg"
+            android:path="/rp/sample"/>
+    </intent-filter>
+
+    <intent-filter android:autoVerify="true">
+        <action android:name="android.intent.action.VIEW"/>
+        <category android:name="android.intent.category.DEFAULT"/>
+        <category android:name="android.intent.category.BROWSABLE"/>
+        <data android:scheme="https"
+            android:host="app.singpass.gov.sg"
+            android:path="/rp/sample/"/>
+    </intent-filter>
+
 </activity>
 ```
 <br>
@@ -252,6 +282,36 @@ Toast.makeText(app, "Error occurred: Intent is null!", Toast.LENGTH_SHORT).show(
 | Singpass Demo<br>(Chrome Custom Tab) | Singpass Demo<br>(External browser fallback) |
 |---|---|
 |  <img src="singpass_pkce_cct.gif" alt="Singpass flow video" width="216.05px" height="480px"></img> | <img src="singpass_pkce_browser_fallback.gif" alt="Singpass flow video" width="300px" height="480px"></img> |
+
+## FAQ
+
+- How do i know if I am using [Chrome Custom Tabs](https://developer.chrome.com/docs/android/custom-tabs/#:~:text=Custom%20Tabs%20is%20a%20browser,to%20resort%20to%20a%20WebView.) (CCT), external web browser or [WebView](https://developer.android.com/reference/android/webkit/WebView)?
+
+You can tell if the Singpass login page is being open in [Chrome Custom Tabs](https://developer.chrome.com/docs/android/custom-tabs/#:~:text=Custom%20Tabs%20is%20a%20browser,to%20resort%20to%20a%20WebView.) by looking at the dropdown menu. It should indicate that the [Chrome Custom Tabs](https://developer.chrome.com/docs/android/custom-tabs/#:~:text=Custom%20Tabs%20is%20a%20browser,to%20resort%20to%20a%20WebView.) is being powered or run by an implemented web browser. And there usually is an option to open the webpage in the indicated web browser. Some of the web browsers that implement the [Chrome Custom Tabs](https://developer.chrome.com/docs/android/custom-tabs/#:~:text=Custom%20Tabs%20is%20a%20browser,to%20resort%20to%20a%20WebView.) feature is shown below.
+
+| Brave Browser CCT                                                                                                  | Chrome Browser CCT                                                                                                   |     
+|--------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------|
+| <img src="CCT Screenshots/Brave CCT.png" alt="Brave browser chrome custom tab" width="270px" height="480px"></img> | <img src="CCT Screenshots/Chrome CCT.png" alt="Chrome browser chrome custom tab" width="216px" height="480px"></img> |
+
+| Firefox Browser CCT                                                                                                    | Firefox Focus Browser CCT                                                                                                          |     
+|------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------|
+| <img src="CCT Screenshots/Firefox CCT.png" alt="Firefox browser chrome custom tab" width="270px" height="480px"></img> | <img src="CCT Screenshots/Firefox Focus CCT.png" alt="Firefox Focus browser chrome custom tab" width="270px" height="480px"></img> |
+
+| Microsoft Edge Browser CCT                                                                                                           | Huawei Browser CCT                                                                                                           |     
+|--------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------|
+| <img src="CCT Screenshots/Microsoft Edge CCT.png" alt="Microsoft Edge browser chrome custom tab" width="270px" height="480px"></img> | <img src="CCT Screenshots/Huawei Browser CCT.png" alt="Huawei browser chrome custom tab" width="240px" height="480px"></img> |
+
+| Samsung Internet Browser CCT                                                                                                            |    
+|-----------------------------------------------------------------------------------------------------------------------------------------|
+| <img src="CCT Screenshots/Samsung Browser CCT.png" alt="Samsung Internet browser chrome custom tab" width="270px" height="480px"></img> |
+
+<br>
+
+You can tell if the Singpass login page is opened in a external web browser by looking for the editable address bar. Below are 2 examples.
+
+| Opera Web browser                                                                                            | DuckDuckGo Browser                                                                                             |     
+|--------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------|
+| <img src="CCT Screenshots/Opera Web Browser.png" alt="Opera Web browser" width="270px" height="480px"></img> | <img src="CCT Screenshots/DuckDuckGo Browser.png" alt="DuckDuckGo browser" width="240px" height="480px"></img> |
 
 ## Polling 
 
