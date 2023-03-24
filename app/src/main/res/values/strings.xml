@@ -2,6 +2,7 @@
     <string name="app_name">Singpass Login Demo</string>
 
     <string name="custom_scheme_redirect_uri">sg.gov.singpass.app://ndisample.gov.sg/rp/sample</string>
+    <string name="redirect_uri">https://app.singpass.gov.sg/rp/sample</string>
     <string name="client_id">ikivDlY5OlOHQVKb8ZIKd4LSpr3nkKsK</string>
     <string name="auth_scope">openid</string>
     <string name="grant_type">authorization_code</string>

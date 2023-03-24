@@ -14,6 +14,8 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
@@ -27,12 +29,14 @@ import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.RadioButton
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
@@ -53,6 +57,7 @@ import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -90,6 +95,13 @@ class MainActivity : ComponentActivity() {
                 val ex = AuthorizationException.fromIntent(data)
 
                 if (ex != null) {
+                    Log.d("ActivityResult", "exception message = ${ex.message}")
+                    Log.d("ActivityResult", "exception code = ${ex.code}")
+                    Log.d("ActivityResult", "exception errorDescription = ${ex.errorDescription}")
+                    Log.d("ActivityResult", "exception errorUri = ${ex.errorUri}")
+                    Log.d("ActivityResult", "exception type = ${ex.type}")
+                    Log.d("ActivityResult", "exception toJsonString = ${ex.toJsonString()}")
+
                     viewModel.updateAuthCode(ERROR_AUTH_CODE_TEXT.format(ex.errorDescription))
                     viewModel.enableBackButtons()
                     return@registerForActivityResult
@@ -102,6 +114,9 @@ class MainActivity : ComponentActivity() {
                         code = resp.authorizationCode ?: "",
                         state = resp.state
                     )
+                } else {
+                    viewModel.updateAuthCode(ERROR_AUTH_CODE_TEXT.format("Response is null!"))
+                    viewModel.enableBackButtons()
                 }
             }
         }
@@ -123,11 +138,16 @@ class MainActivity : ComponentActivity() {
                     idTokenState = viewModel.idTokenState,
                     buttonEnabledState = viewModel.buttonEnabledState,
                     spmInstalledState = viewModel.spmInstalledState,
+                    radioButtonList = viewModel.radioButtonList,
+                    radioButtonState = viewModel.radioButtonState,
                     refreshButtonClick = {
                         viewModel.reset()
                     },
                     loginButtonClick = {
                         viewModel.createAuthorizationServiceIntent(it)
+                    },
+                    radioButtonClick = {
+                        viewModel.useHttpsRedirectUri(it)
                     }
                 )
             }
@@ -155,8 +175,11 @@ private fun MainScreen(
     idTokenState: State<String>,
     buttonEnabledState: State<Boolean>,
     spmInstalledState: State<Boolean>,
+    radioButtonState: State<String>,
+    radioButtonList: List<String>,
     refreshButtonClick: () -> Unit,
-    loginButtonClick: (Boolean) -> Unit
+    loginButtonClick: (Boolean) -> Unit,
+    radioButtonClick: (String) -> Unit,
 ) {
 
     val systemUiController = rememberSystemUiController()
@@ -221,6 +244,40 @@ private fun MainScreen(
                     )
                 }
 
+                item(key = ListItems.REDIRECT_URI_RADIO_BTNS) {
+                    Column(modifier = Modifier.padding(bottom = 16.dp)) {
+                        radioButtonList.forEach { text ->
+                            Row(
+                                Modifier
+                                    .fillMaxWidth()
+                                    .height(56.dp)
+                                    .selectable(
+                                        enabled = buttonEnabledState.value,
+                                        selected = (text == radioButtonState.value),
+                                        onClick = {
+                                            radioButtonClick(text)
+                                        },
+                                        role = Role.RadioButton
+                                    )
+                                    .padding(horizontal = 8.dp),
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.Center
+                            ) {
+                                RadioButton(
+                                    enabled = buttonEnabledState.value,
+                                    selected = (text == radioButtonState.value),
+                                    onClick = null // null recommended for accessibility with screenreaders
+                                )
+                                Text(
+                                    text = text,
+                                    style = MaterialTheme.typography.body1.merge(),
+                                    modifier = Modifier.padding(start = 8.dp)
+                                )
+                            }
+                        }
+                    }
+                }
+
                 item(key = ListItems.SINGPASS_BUTTON) {
                     LoginButton(
                         Modifier.animateItemPlacement(),
@@ -283,7 +340,7 @@ private fun MainScreen(
 }
 
 enum class ListItems {
-    SINGPASS_BUTTON, MYINFO_BUTTON, INSTRUCTION, AUTHCODE, IDTOKEN
+    SINGPASS_BUTTON, REDIRECT_URI_RADIO_BTNS, MYINFO_BUTTON, INSTRUCTION, AUTHCODE, IDTOKEN
 }
 
 @Composable
@@ -342,15 +399,21 @@ fun DefaultPreview() {
         val idTokenState = remember { mutableStateOf("Sample idtoken code!") }
         val buttonEnabledState = remember { mutableStateOf(true) }
         val spmInstalledState = remember { mutableStateOf(false) }
+        val radioButtonList = listOf("app scheme", "https scheme")
+        val radioButtonState = remember { mutableStateOf(radioButtonList[0]) }
 
         MainScreen(
             authCodeState = authCodeState,
             idTokenState = idTokenState,
             buttonEnabledState = buttonEnabledState,
             spmInstalledState = spmInstalledState,
-            refreshButtonClick = { }
-        ) {
-            spmInstalledState.value = spmInstalledState.value.not()
-        }
+            radioButtonList = radioButtonList,
+            radioButtonState = radioButtonState,
+            refreshButtonClick = { },
+            loginButtonClick = {
+                spmInstalledState.value = spmInstalledState.value.not()
+            },
+            radioButtonClick = { }
+        )
     }
 }

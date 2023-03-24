@@ -21,6 +21,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import net.openid.appauth.AuthorizationRequest
 import net.openid.appauth.AuthorizationService
 import net.openid.appauth.AuthorizationServiceConfiguration
@@ -106,7 +107,8 @@ class MainActivityViewModel(private val app: Application) : AndroidViewModel(app
                 code = code,
                 state = state,
                 sessionId = pkceSessionParameters?.session_id ?: "",
-                session_verifier = sessionVerifier
+                session_verifier = sessionVerifier,
+                redirect_uri = getRedirectUri()
             )
 
             if (response.isSuccessful) {
@@ -201,7 +203,7 @@ class MainActivityViewModel(private val app: Application) : AndroidViewModel(app
         }
     }
 
-    private fun setupServiceConfigs(
+    private suspend fun setupServiceConfigs(
         serviceConfig: AuthorizationServiceConfiguration,
         pkceSessionParameters: PkceSessionParameters
     ) {
@@ -272,7 +274,22 @@ class MainActivityViewModel(private val app: Application) : AndroidViewModel(app
         }
     }
 
-    private fun createAuthRequest(
+    private var _useCustomSchemeRedirectUri = false
+    private fun getRedirectUri(): String {
+        return if (_useCustomSchemeRedirectUri)
+            app.getString(R.string.custom_scheme_redirect_uri)
+        else app.getString(R.string.redirect_uri)
+    }
+
+    val radioButtonList = listOf("app scheme", "https scheme")
+    val radioButtonState = mutableStateOf(radioButtonList[0])
+
+    fun useHttpsRedirectUri(radioButtonText: String) {
+        radioButtonState.value = radioButtonText
+        _useCustomSchemeRedirectUri = radioButtonText == radioButtonList[0]
+    }
+
+    private suspend fun createAuthRequest(
         serviceConfig: AuthorizationServiceConfiguration,
         pkceSessionParameters: PkceSessionParameters
     ): AuthorizationRequest {
@@ -289,7 +306,7 @@ class MainActivityViewModel(private val app: Application) : AndroidViewModel(app
             serviceConfig, // discovery doc service config
             client_id, // client_id
             ResponseTypeValues.CODE, // responseType
-            Uri.parse(app.getString(R.string.custom_scheme_redirect_uri)) // redirect_uri
+            Uri.parse(getRedirectUri()) // redirect_uri
         ).apply {
 
             val additionalParams = mutableMapOf<String, String>()
@@ -303,6 +320,9 @@ class MainActivityViewModel(private val app: Application) : AndroidViewModel(app
                 setScope(app.getString(R.string.auth_scope))
                 setState(pkceSessionParameters.state)
                 setNonce(pkceSessionParameters.nonce)
+                if (!_useCustomSchemeRedirectUri) {
+                    additionalParams["redirect_uri_https_type"] = "app_claimed_https"
+                }
             }
 
 //            additionalParams["app_launch_url"] = "DO-NOT-PUT-THIS-FOR-ANDROID"
@@ -319,7 +339,7 @@ class MainActivityViewModel(private val app: Application) : AndroidViewModel(app
         }.build()
     }
 
-    private fun createAuthIntent(
+    private suspend fun createAuthIntent(
         authService: AuthorizationService,
         authRequest: AuthorizationRequest
     ) {
@@ -338,7 +358,9 @@ class MainActivityViewModel(private val app: Application) : AndroidViewModel(app
             _launchAuthorizationWebPage.tryEmit(true)
         } catch (e: ActivityNotFoundException) {
             updateAuthCode(ERROR_AUTH_CODE_TEXT.format("No suitable web browser found!"))
-            Toast.makeText(app, "No suitable web browser found!", Toast.LENGTH_SHORT).show()
+            withContext(Dispatchers.Main) {
+                Toast.makeText(app, "No suitable web browser found!", Toast.LENGTH_SHORT).show()
+            }
             _buttonEnabledState.value = true
         }
     }

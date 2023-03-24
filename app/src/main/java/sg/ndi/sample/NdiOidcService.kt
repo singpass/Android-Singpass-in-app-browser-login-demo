@@ -25,6 +25,7 @@ interface NdiOidcService {
         @Field("state") state: String?,
         @Field("code") code: String,
         @Field("session_id") sessionId: String,
-        @Field("session_verifier") session_verifier: String
+        @Field("session_verifier") session_verifier: String,
+        @Field("redirect_uri") redirect_uri: String
     ): Response<String>
 }
