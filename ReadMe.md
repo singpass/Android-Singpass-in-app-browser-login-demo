@@ -291,19 +291,19 @@ You can tell if the Singpass login page is being open in [Chrome Custom Tabs](ht
 
 | Brave Browser CCT                                                                                                  | Chrome Browser CCT                                                                                                   |     
 |--------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------|
-| <img src="CCT Screenshots/Brave CCT.png" alt="Brave browser chrome custom tab" width="270px" height="480px"></img> | <img src="CCT Screenshots/Chrome CCT.png" alt="Chrome browser chrome custom tab" width="216px" height="480px"></img> |
+| <img src="CCT_Screenshots/Brave_CCT.png" alt="Brave browser chrome custom tab" width="270px" height="480px"></img> | <img src="CCT_Screenshots/Chrome_CCT.png" alt="Chrome browser chrome custom tab" width="216px" height="480px"></img> |
 
 | Firefox Browser CCT                                                                                                    | Firefox Focus Browser CCT                                                                                                          |     
 |------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------|
-| <img src="CCT Screenshots/Firefox CCT.png" alt="Firefox browser chrome custom tab" width="270px" height="480px"></img> | <img src="CCT Screenshots/Firefox Focus CCT.png" alt="Firefox Focus browser chrome custom tab" width="270px" height="480px"></img> |
+| <img src="CCT_Screenshots/Firefox_CCT.png" alt="Firefox browser chrome custom tab" width="270px" height="480px"></img> | <img src="CCT_Screenshots/Firefox_Focus_CCT.png" alt="Firefox Focus browser chrome custom tab" width="270px" height="480px"></img> |
 
-| Microsoft Edge Browser CCT                                                                                                           | Huawei Browser CCT                                                                                                           |     
-|--------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------|
-| <img src="CCT Screenshots/Microsoft Edge CCT.png" alt="Microsoft Edge browser chrome custom tab" width="270px" height="480px"></img> | <img src="CCT Screenshots/Huawei Browser CCT.png" alt="Huawei browser chrome custom tab" width="240px" height="480px"></img> |
+| Microsoft Edge Browser CCT                                                                                                   | Huawei Browser CCT                                                                                                           |     
+|------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------|
+| <img src="CCT_Screenshots/Microsoft_Edge_CCT.png" alt="Microsoft Edge chrome custom tab" width="270px" height="480px"></img> | <img src="CCT_Screenshots/Huawei_Browser_CCT.png" alt="Huawei browser chrome custom tab" width="240px" height="480px"></img> |
 
 | Samsung Internet Browser CCT                                                                                                            |    
 |-----------------------------------------------------------------------------------------------------------------------------------------|
-| <img src="CCT Screenshots/Samsung Browser CCT.png" alt="Samsung Internet browser chrome custom tab" width="270px" height="480px"></img> |
+| <img src="CCT_Screenshots/Samsung_Browser_CCT.png" alt="Samsung Internet browser chrome custom tab" width="270px" height="480px"></img> |
 
 <br>
 
@@ -311,7 +311,7 @@ You can tell if the Singpass login page is opened in a external web browser by l
 
 | Opera Web browser                                                                                            | DuckDuckGo Browser                                                                                             |     
 |--------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------|
-| <img src="CCT Screenshots/Opera Web Browser.png" alt="Opera Web browser" width="270px" height="480px"></img> | <img src="CCT Screenshots/DuckDuckGo Browser.png" alt="DuckDuckGo browser" width="240px" height="480px"></img> |
+| <img src="CCT_Screenshots/Opera_Web_Browser.png" alt="Opera Web browser" width="270px" height="480px"></img> | <img src="CCT_Screenshots/DuckDuckGo_Browser.png" alt="DuckDuckGo browser" width="240px" height="480px"></img> |
 
 ## Polling 
 
