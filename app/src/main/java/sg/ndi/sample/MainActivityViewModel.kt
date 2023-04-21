@@ -71,6 +71,15 @@ class MainActivityViewModel(private val app: Application) : AndroidViewModel(app
     val buttonEnabledState: State<Boolean>
         get() = _buttonEnabledState
 
+    var _pkceEnabledState = mutableStateOf(true)
+        private set
+    val pkceEnabledState: State<Boolean>
+        get() = _pkceEnabledState
+
+    fun pkceCheckBoxClicked(checked: Boolean) {
+        _pkceEnabledState.value = checked
+    }
+
     override fun onCleared() {
         super.onCleared()
         authService?.dispose()
@@ -177,7 +186,8 @@ class MainActivityViewModel(private val app: Application) : AndroidViewModel(app
 
             val response = ndiOidcService.getPkceSessionParameters(
                 session_challenge = sessionChallenge,
-                myinfo = myInfo
+                myinfo = myInfo,
+                requirePkce = _pkceEnabledState.value
             )
 
             if (response.isSuccessful) {
@@ -185,6 +195,7 @@ class MainActivityViewModel(private val app: Application) : AndroidViewModel(app
 
                 if (pkceSessionParameters != null) {
                     pkceSessionParameters?.isMyInfo = myInfo
+                    pkceSessionParameters?.requirePkce = _pkceEnabledState.value
                     pkceSessionParameters?.run {
                         if (myInfo) {
                             createMyInfoAuthServiceIntent(this)
@@ -225,10 +236,12 @@ class MainActivityViewModel(private val app: Application) : AndroidViewModel(app
         viewModelScope.launch(Dispatchers.IO) {
             try {
 
+                val (apiVersion, auth) = if (pkceSessionParameters.requirePkce) "v4" to "authorize" else "v3" to "authorise"
+
                 val jsonConfig = "{" +
                     "\"issuer\":\"https://test.api.myinfo.gov.sg\"," +
-                    "\"authorizationEndpoint\":\"https://test.api.myinfo.gov.sg/com/v4/authorize\"," +
-                    "\"tokenEndpoint\":\"https://test.api.myinfo.gov.sg/com/v4/token\"" +
+                    "\"authorizationEndpoint\":\"https://test.api.myinfo.gov.sg/com/$apiVersion/$auth\"," +
+                    "\"tokenEndpoint\":\"https://test.api.myinfo.gov.sg/com/$apiVersion/token\"" +
                     "}"
 
                 setupServiceConfigs(
@@ -274,7 +287,7 @@ class MainActivityViewModel(private val app: Application) : AndroidViewModel(app
         }
     }
 
-    private var _useCustomSchemeRedirectUri = false
+    private var _useCustomSchemeRedirectUri = true
     private fun getRedirectUri(): String {
         return if (_useCustomSchemeRedirectUri)
             app.getString(R.string.custom_scheme_redirect_uri)
@@ -297,7 +310,9 @@ class MainActivityViewModel(private val app: Application) : AndroidViewModel(app
         _buttonEnabledState.value = false
 
         val client_id = if (pkceSessionParameters.isMyInfo) {
-            app.getString(R.string.myinfo_client_id)
+            if (pkceSessionParameters.requirePkce)
+                app.getString(R.string.myinfo_client_id)
+            else app.getString(R.string.myinfo_client_id_v3)
         } else {
             app.getString(R.string.client_id)
         }
@@ -312,10 +327,18 @@ class MainActivityViewModel(private val app: Application) : AndroidViewModel(app
             val additionalParams = mutableMapOf<String, String>()
 
             if (pkceSessionParameters.isMyInfo) {
-                setScope(app.getString(R.string.myinfo_scope))
-                additionalParams["purpose_id"] = "demonstration"
-                setNonce(null)
-                setState(null)
+                if (pkceSessionParameters.requirePkce) {
+                    setScope(app.getString(R.string.myinfo_scope))
+                    additionalParams["purpose_id"] = "demonstration"
+                    setNonce(null)
+                    setState(null)
+                } else {
+                    setScope(null)
+                    setNonce(null)
+                    setState(pkceSessionParameters.state)
+                    additionalParams["purpose"] = "demonstrating MyInfo APIs"
+                    additionalParams["attributes"] = app.getString(R.string.myinfo_scope)
+                }
             } else {
                 setScope(app.getString(R.string.auth_scope))
                 setState(pkceSessionParameters.state)
@@ -330,7 +353,9 @@ class MainActivityViewModel(private val app: Application) : AndroidViewModel(app
             pkceSessionParameters.run {
 //                Set code_challenge for code_verifier as appauth library
 //                does NOT natively support externally generated code_verifier
-                setCodeVerifier(code_challenge, code_challenge, code_challenge_method)
+                if (requirePkce)
+                    setCodeVerifier(code_challenge, code_challenge, code_challenge_method)
+                else setCodeVerifier(null, null, null)
             }
 
             if (additionalParams.isNotEmpty()) {

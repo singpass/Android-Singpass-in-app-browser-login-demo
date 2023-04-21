@@ -9,5 +9,6 @@
     <string name="client_assertion_type">urn:ietf:params:oauth:client-assertion-type:jwt-bearer</string>
 
     <string name="myinfo_client_id">STG2-MYINFO-SELF-TEST</string>
+    <string name="myinfo_client_id_v3">STG2-MYINFO-DEMO-APP</string>
     <string name="myinfo_scope">name</string>
 </resources>

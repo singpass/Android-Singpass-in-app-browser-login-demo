@@ -33,6 +33,8 @@ import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.Checkbox
+import androidx.compose.material.CheckboxDefaults
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
@@ -140,6 +142,7 @@ class MainActivity : ComponentActivity() {
                     spmInstalledState = viewModel.spmInstalledState,
                     radioButtonList = viewModel.radioButtonList,
                     radioButtonState = viewModel.radioButtonState,
+                    pkceCheckBoxState = viewModel.pkceEnabledState,
                     refreshButtonClick = {
                         viewModel.reset()
                     },
@@ -148,6 +151,9 @@ class MainActivity : ComponentActivity() {
                     },
                     radioButtonClick = {
                         viewModel.useHttpsRedirectUri(it)
+                    },
+                    pkceCheckBoxClick = {
+                        viewModel.pkceCheckBoxClicked(it)
                     }
                 )
             }
@@ -177,9 +183,11 @@ private fun MainScreen(
     spmInstalledState: State<Boolean>,
     radioButtonState: State<String>,
     radioButtonList: List<String>,
+    pkceCheckBoxState: State<Boolean>,
     refreshButtonClick: () -> Unit,
     loginButtonClick: (Boolean) -> Unit,
     radioButtonClick: (String) -> Unit,
+    pkceCheckBoxClick: (Boolean) -> Unit
 ) {
 
     val systemUiController = rememberSystemUiController()
@@ -244,6 +252,20 @@ private fun MainScreen(
                     )
                 }
 
+                item(key = ListItems.PKCE_ENABLED) {
+                    Row(
+                        modifier = Modifier.padding(8.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Checkbox(
+                            checked = pkceCheckBoxState.value,
+                            onCheckedChange = pkceCheckBoxClick,
+                            enabled = buttonEnabledState.value
+                        )
+                        Text(text = "Enable PKCE")
+                    }
+                }
+                
                 item(key = ListItems.REDIRECT_URI_RADIO_BTNS) {
                     Column(modifier = Modifier.padding(bottom = 16.dp)) {
                         radioButtonList.forEach { text ->
@@ -340,7 +362,7 @@ private fun MainScreen(
 }
 
 enum class ListItems {
-    SINGPASS_BUTTON, REDIRECT_URI_RADIO_BTNS, MYINFO_BUTTON, INSTRUCTION, AUTHCODE, IDTOKEN
+    SINGPASS_BUTTON, REDIRECT_URI_RADIO_BTNS, MYINFO_BUTTON, INSTRUCTION, AUTHCODE, IDTOKEN, PKCE_ENABLED
 }
 
 @Composable
@@ -401,6 +423,7 @@ fun DefaultPreview() {
         val spmInstalledState = remember { mutableStateOf(false) }
         val radioButtonList = listOf("app scheme", "https scheme")
         val radioButtonState = remember { mutableStateOf(radioButtonList[0]) }
+        val pkceEnabledState = remember { mutableStateOf(true) }
 
         MainScreen(
             authCodeState = authCodeState,
@@ -409,11 +432,13 @@ fun DefaultPreview() {
             spmInstalledState = spmInstalledState,
             radioButtonList = radioButtonList,
             radioButtonState = radioButtonState,
+            pkceCheckBoxState = pkceEnabledState,
             refreshButtonClick = { },
             loginButtonClick = {
                 spmInstalledState.value = spmInstalledState.value.not()
             },
-            radioButtonClick = { }
+            radioButtonClick = { },
+            pkceCheckBoxClick = { }
         )
     }
 }

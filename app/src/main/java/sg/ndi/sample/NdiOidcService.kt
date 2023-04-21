@@ -15,7 +15,8 @@ interface NdiOidcService {
         @Header("Cache-Control") cacheCtl: String = "no-cache",
         @Query("session_challenge") session_challenge: String,
         @Query("session_challenge_method") session_challenge_method: String = "S256",
-        @Query("myinfo") myinfo: Boolean = false
+        @Query("myinfo") myinfo: Boolean = false,
+        @Query("require_pkce") requirePkce: Boolean = true
     ): Response<PkceSessionParameters>
 
     @POST(BuildConfig.receiveAuthCodeParams)
