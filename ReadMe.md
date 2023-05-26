@@ -188,6 +188,23 @@ val authRequest = AuthorizationRequest.Builder(
 
 Create the OAuth authorization service
 ```kotlin
+
+// This config can be configured for appAuth to deny usage of certain web browsers.
+// As of 26th May 2023 we are seeing a bug on the Microsoft Edge browser affect app linking
+val appAuthConfig = AppAuthConfiguration.Builder()
+    .setBrowserMatcher(
+        BrowserDenyList(
+            VersionedBrowserMatcher(
+                "com.microsoft.emmx", // package name
+                setOf("Ivy-Rk6ztai_IudfbyUrSHugzRqAtHWslFvHT0PTvLMsEKLUIgv7ZZbVxygWy_M5mOPpfjZrd3vOx3t-cA6fVQ=="), // SHA512 hash of the signing certificate
+                true, // use Chrome Custom Tabs
+                VersionRange.ANY_VERSION // can configure to deny specific versions or version ranges
+            )
+        )
+    ).build()
+
+val authService = AuthorizationService(applicationContext, appAuthConfig)
+// or below if no appAuthConfig needed
 val authService = AuthorizationService(applicationContext)
 ```
 <br>
