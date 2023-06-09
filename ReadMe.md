@@ -133,7 +133,7 @@ The below code snippets should be inside a ViewModel or any other component that
 
 <br>
 
-Create the Oauth service configuration
+#### Create the Oauth service configuration
 ```kotlin
   // This is the json string that describes the current Oauth service
   // This example is using the test environment for MyInfo Singpass login 
@@ -148,7 +148,7 @@ Create the Oauth service configuration
 ```
 <br>
 
-Create the OAuth authorization request
+#### Create the OAuth authorization request
 ```kotlin
 val authRequest = AuthorizationRequest.Builder(
   serviceConfig, // from the above section
@@ -186,19 +186,29 @@ val authRequest = AuthorizationRequest.Builder(
 ```
 <br>
 
-Create the OAuth authorization service
+#### Create the OAuth authorization service
 ```kotlin
 
 // This config can be configured for appAuth to deny usage of certain web browsers.
-// As of 26th May 2023 we are seeing a bug on the Microsoft Edge browser affect app linking
 val appAuthConfig = AppAuthConfiguration.Builder()
     .setBrowserMatcher(
         BrowserDenyList(
+            // As of 26th May 2023 we are seeing a bug on the Microsoft Edge browser affecting app linking
+            // where fallback url will be open mistakenly when launching Singpass app on QR code click
             VersionedBrowserMatcher(
                 "com.microsoft.emmx", // package name
                 setOf("Ivy-Rk6ztai_IudfbyUrSHugzRqAtHWslFvHT0PTvLMsEKLUIgv7ZZbVxygWy_M5mOPpfjZrd3vOx3t-cA6fVQ=="), // SHA512 hash of the signing certificate
                 true, // use Chrome Custom Tabs
                 VersionRange.ANY_VERSION // can configure to deny specific versions or version ranges
+            ),
+            // As of 9th June 2023 we are seeing a bug on the Samsung Internet Browser affecting app linking
+            // where customs tabs from Samsung Internet browsers will close itself when launching Singpass app
+            // after clicking on QR code
+            VersionedBrowserMatcher(
+                Browsers.SBrowser.PACKAGE_NAME,
+                Browsers.SBrowser.SIGNATURE_SET,
+                true,
+                VersionRange.ANY_VERSION
             )
         )
     ).build()
@@ -209,7 +219,7 @@ val authService = AuthorizationService(applicationContext)
 ```
 <br>
 
-Create the Intent to launch the Authorization Endpoint in a Chrome Custom Tab or external web browser
+#### Create the Intent to launch the Authorization Endpoint in a Chrome Custom Tab or external web browser
 ```kotlin
 
 // Todo: Modify to make the custom tabs fit your application theme for light mode
@@ -249,7 +259,7 @@ try {
 
 <br>
 
-Create an `authActivityLauncher` in your Activity or Fragment.
+#### Create an `authActivityLauncher` in your Activity or Fragment.
 The `authActivityLauncher` will listen for the authorization code or any errors returned from the Chrome Custom Tabs or external web browser
 ```kotlin
 val authActivityLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
@@ -276,7 +286,7 @@ val authActivityLauncher = registerForActivityResult(ActivityResultContracts.Sta
 ```
 <br>
 
-Launch the authorization Intent created in the viewModel
+#### Launch the authorization Intent created in the viewModel
 ```kotlin
 viewModel.authIntent?.run {   
     authActivityLauncher.launch(this)
@@ -326,6 +336,11 @@ You can tell if the Singpass login page is opened in a external web browser by l
 | Opera Web browser                                                                                            | DuckDuckGo Browser                                                                                             |     
 |--------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------|
 | <img src="CCT_Screenshots/Opera_Web_Browser.png" alt="Opera Web browser" width="270px" height="480px"></img> | <img src="CCT_Screenshots/DuckDuckGo_Browser.png" alt="DuckDuckGo browser" width="240px" height="480px"></img> |
+
+## Known issues
+
+- As of 26th May 2023 we are seeing a bug on the `Microsoft Edge v113.0.1774.63` affecting app linking, where fallback url will be open mistakenly when launching Singpass app on QR code click. Please refer to [this](#Create-the-OAuth-authorization-service) to see how restrict specific browsers usage.
+- As of 9th June 2023 we are seeing a bug on the `Samsung Internet Browser v21.0.0.41` affecting app linking where customs tabs from Samsung Internet browser will close itself when launching Singpass app after clicking on QR code. Please refer to [this](#Create-the-OAuth-authorization-service) to see how restrict specific browsers usage
 
 ## Polling 
 

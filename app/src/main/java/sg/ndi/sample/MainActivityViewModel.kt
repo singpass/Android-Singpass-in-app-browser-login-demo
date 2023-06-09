@@ -22,10 +22,15 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import net.openid.appauth.AppAuthConfiguration
 import net.openid.appauth.AuthorizationRequest
 import net.openid.appauth.AuthorizationService
 import net.openid.appauth.AuthorizationServiceConfiguration
 import net.openid.appauth.ResponseTypeValues
+import net.openid.appauth.browser.BrowserDenyList
+import net.openid.appauth.browser.Browsers
+import net.openid.appauth.browser.VersionRange
+import net.openid.appauth.browser.VersionedBrowserMatcher
 import org.json.JSONException
 
 class MainActivityViewModel(private val app: Application) : AndroidViewModel(app) {
@@ -225,8 +230,37 @@ class MainActivityViewModel(private val app: Application) : AndroidViewModel(app
 
         Log.d("createAuthServiceIntent", authorizationRequest?.toUri().toString())
 
+        val appAuthConfig = AppAuthConfiguration.Builder()
+            .setBrowserMatcher(
+                BrowserDenyList(
+                    VersionedBrowserMatcher(
+                        "com.microsoft.emmx",
+                        setOf("Ivy-Rk6ztai_IudfbyUrSHugzRqAtHWslFvHT0PTvLMsEKLUIgv7ZZbVxygWy_M5mOPpfjZrd3vOx3t-cA6fVQ=="),
+                        true,
+                        VersionRange.ANY_VERSION
+                    ),
+                    VersionedBrowserMatcher(
+                        Browsers.SBrowser.PACKAGE_NAME,
+                        Browsers.SBrowser.SIGNATURE_SET,
+                        true,
+                        VersionRange.ANY_VERSION
+                    )
+                )
+            ).build()
+
+//        // code to generate the signature hash set for a browser
+//        val packageInfo = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+//            app.packageManager.getPackageInfo(Browsers.Firefox.PACKAGE_NAME, PackageInfoFlags.of(PackageManager.GET_SIGNING_CERTIFICATES.toLong()))
+//        else app.packageManager.getPackageInfo(Browsers.Firefox.PACKAGE_NAME, PackageManager.GET_SIGNING_CERTIFICATES)
+//
+//        val signatures = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P)
+//            BrowserDescriptor.generateSignatureHashes(packageInfo.signingInfo.apkContentsSigners)
+//        else BrowserDescriptor.generateSignatureHashes(packageInfo.signatures)
+//
+//        Log.d("edge package info", signatures.joinToString(","))
+
         authorizationRequest?.let { authRequest ->
-            authService = AuthorizationService(app).also {
+            authService = AuthorizationService(app, appAuthConfig).also {
                 createAuthIntent(it, authRequest)
             }
         }
