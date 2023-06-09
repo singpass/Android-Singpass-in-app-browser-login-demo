@@ -339,8 +339,13 @@ You can tell if the Singpass login page is opened in a external web browser by l
 
 ## Known issues
 
-- As of 26th May 2023 we are seeing a bug on the `Microsoft Edge v113.0.1774.63` affecting app linking, where fallback url will be open mistakenly when launching Singpass app on QR code click. Please refer to [this](#Create-the-OAuth-authorization-service) to see how restrict specific browsers usage.
-- As of 9th June 2023 we are seeing a bug on the `Samsung Internet Browser v21.0.0.41` affecting app linking where customs tabs from Samsung Internet browser will close itself when launching Singpass app after clicking on QR code. Please refer to [this](#Create-the-OAuth-authorization-service) to see how restrict specific browsers usage
+- As of 26th May 2023 we are seeing a bug on the `Microsoft Edge v113.0.1774.63` affecting app linking, where fallback url will be open mistakenly when launching Singpass app on QR code click. Please refer to [this](#Create-the-OAuth-authorization-service) to see how restrict specific browsers usage. Demo of the aforementioned behavior below, as compare to the expected behavior when using [Chrome](#Singpass-Login)
+<br><br>
+<img src="edge_browser_issue.gif" alt="Myinfo Mockpass flow video" width="300px" height="480px"></img>
+<br><br>
+- As of 9th June 2023 we are seeing a bug on the `Samsung Internet Browser v21.0.0.41` affecting app linking where customs tabs from Samsung Internet browser will close itself when launching Singpass app after clicking on QR code. Please refer to [this](#Create-the-OAuth-authorization-service) to see how restrict specific browsers usage. Demo of the aforementioned behavior below, as compare to the expected behavior when using [Chrome](#Singpass-Login)
+  <br><br>
+  <img src="samsung_internet_browser_issue.gif" alt="Myinfo Mockpass flow video" width="300px" height="480px"></img>
 
 ## Polling 
 
