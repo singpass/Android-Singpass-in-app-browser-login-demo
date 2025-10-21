@@ -10,7 +10,7 @@ Usage of WebViews for web logins is not recommended due to security and usabilit
 
 *Quoted from RFC8252.*
 
-This repository has codes for a sample Android application implementing the recommended [Proof Key for Code Exchange (PKCE)](https://www.rfc-editor.org/rfc/rfc7636) for Singpass logins. The application will demonstrate the Singpass login flow while utilizing [Chrome Custom Tabs](https://www.google.com/search?q=https://developer.chrome.com/docs/android/custom-tabs/%23:~:text%3DCustom%2520Tabs%2520is%2520a%2520browser,to%2520resort%2520to%2520a%2520WebView.) or external mobile web browser along with PKCE leveraging on the Android [AppAuth](https://github.com/openid/AppAuth-Android) library.
+This repository has codes for a sample Android application implementing the recommended [Proof Key for Code Exchange (PKCE)](https://www.rfc-editor.org/rfc/rfc7636) for Singpass logins. The application will demonstrate the Singpass login flow while utilizing [Chrome Custom Tabs](https://developer.chrome.com/docs/android/custom-tabs/#:~:text=Custom%20Tabs%20is%20a%20browser,to%20resort%20to%20a%20WebView.) or external mobile web browser along with PKCE leveraging on the Android [AppAuth](https://github.com/openid/AppAuth-Android) library.
 
 # Sequence Diagram
 ![Sequence Diagram](pkce_sequence_diagram.png)
@@ -34,7 +34,7 @@ This repository has codes for a sample Android application implementing the reco
   - 3d) **RP Backend** process the token payload and does its required operations and responds to **RP Mobile App** with the appropriate session state tokens or data. \#
       <br><br>
 
-​\* - Take note that the `redirect_uri` must be a **verified HTTPS URL** that represents an Android App Link, as configured in the [AndroidManifest.xml](https://www.google.com/search?q=%23In-the-AndroidManifest.xml) implementation.
+​\* - Take note that the `redirect_uri` must be a **verified HTTPS URL** that represents an Android App Link, as configured in the [AndroidManifest.xml](#In-the-AndroidManifest.xml)implementation.
 
 &#8203;# - It is up to the RP to secure the connection between **RP Mobile App** and **RP Backend**
 
@@ -47,7 +47,7 @@ This repository has codes for a sample Android application implementing the reco
 
 # Potential changes/enhancements for RP Mobile App
 
-1.  Integrate [AppAuth](https://github.com/openid/AppAuth-Android) library to handle launching of authorization endpoint webpage in a [Chrome Custom Tabs](https://www.google.com/search?q=https://developer.chrome.com/docs/android/custom-tabs/%23:~:text%3DCustom%2520Tabs%2520is%2520a%2520browser,to%2520resort%2520to%2520a%2520WebView.) or external mobile web browser.
+1.  Integrate [AppAuth](https://github.com/openid/AppAuth-Android) library to handle launching of authorization endpoint webpage in a [Chrome Custom Tabs](https://developer.chrome.com/docs/android/custom-tabs/#:~:text=Custom%20Tabs%20is%20a%20browser,to%20resort%20to%20a%20WebView.).) or external mobile web browser.
        <br><br>
 2.  Implement api call to **RP Backend** to request for `code_challenge`, `code_challenge_method`, `state` and `nonce` if required and other parameters.
        <br><br>
@@ -305,7 +305,7 @@ Toast.makeText(app, "Error occurred: Intent is null!", Toast.LENGTH_SHORT).show(
 
 ## FAQ
 
-- How do i know if I am using [Chrome Custom Tabs](https://developer.chrome.com/docs/android/custom-tabs/#:~:text=Custom%20Tabs%20is%20a%20browser,to%20resort%20to%20a%20WebView.) (CCT), external web browser or [WebView](https://developer.android.com/reference/android/webkit/WebView)?
+- How do i know if I am using [Chrome Custom Tabs](https://developer.chrome.com/docs/android/custom-tabs/#:~:text=Custom%20Tabs%20is%20a%20browser,to%20resort%20to%20a%20WebView.).) (CCT), external web browser or [WebView](https://developer.android.com/reference/android/webkit/WebView)?
 
 You can tell if the Singpass login page is being open in [Chrome Custom Tabs](https://developer.chrome.com/docs/android/custom-tabs/#:~:text=Custom%20Tabs%20is%20a%20browser,to%20resort%20to%20a%20WebView.) by looking at the dropdown menu. It should indicate that the [Chrome Custom Tabs](https://developer.chrome.com/docs/android/custom-tabs/#:~:text=Custom%20Tabs%20is%20a%20browser,to%20resort%20to%20a%20WebView.) is being powered or run by an implemented web browser. And there usually is an option to open the webpage in the indicated web browser. Some of the web browsers that implement the [Chrome Custom Tabs](https://developer.chrome.com/docs/android/custom-tabs/#:~:text=Custom%20Tabs%20is%20a%20browser,to%20resort%20to%20a%20WebView.) feature is shown below.
 
