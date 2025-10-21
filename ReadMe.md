@@ -34,7 +34,7 @@ This repository has codes for a sample Android application implementing the reco
   - 3d) **RP Backend** process the token payload and does its required operations and responds to **RP Mobile App** with the appropriate session state tokens or data. \#
       <br><br>
 
-​\* - Take note that the `redirect_uri` must be a **verified HTTPS URL** that represents an Android App Link, as configured in the [AndroidManifest.xml](#In-the-AndroidManifest.xml)implementation.
+​\* - Take note that the `redirect_uri` must be a **verified HTTPS URL** that represents an Android App Link, as configured in the [AndroidManifest.xml](#In-the-AndroidManifest.xml) implementation.
 
 &#8203;# - It is up to the RP to secure the connection between **RP Mobile App** and **RP Backend**
 
