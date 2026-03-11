@@ -2,12 +2,6 @@ package sg.ndi.sample.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val primary = Color(0xfff4333d)
-val primaryVariant = Color(0xffff6d68)
-val primaryDark = Color(0xffb90016)
-val secondary = Color(0xfff4d4c0)
-val secondaryVariant = Color(0xfffffff3)
-val secondaryDark = Color(0xffc1a390)
 
 val Purple200 = Color(0xFFBB86FC)
 val Purple500 = Color(0xFF6200EE)
@@ -24,3 +18,14 @@ val Grey70 = Color(0xff4f4f4f)
 val Grey80 = Color(0xff363636)
 val Grey90 = Color(0xff212121)
 val Grey100 = Color(0xff141414)
+
+val singpassred = Color(0xfff4333d)
+
+val primary = singpassred
+val primaryVariant = Grey20
+val primaryDark = Color(0xfff4333d)
+val secondary = Color(0xfff4d4c0)
+val secondaryVariant = Color(0xfffffff3)
+val secondaryDark = Color(0xffc1a390)
+
+

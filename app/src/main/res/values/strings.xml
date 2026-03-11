@@ -1,14 +1,24 @@
 <resources>
     <string name="app_name">Singpass Login Demo</string>
 
+    <string name="custom_scheme">sg.gov.singpass.app</string>
     <string name="custom_scheme_redirect_uri">sg.gov.singpass.app://ndisample.gov.sg/rp/sample</string>
     <string name="redirect_uri">https://app.singpass.gov.sg/rp/sample</string>
-    <string name="client_id">ikivDlY5OlOHQVKb8ZIKd4LSpr3nkKsK</string>
-    <string name="auth_scope">openid</string>
-    <string name="grant_type">authorization_code</string>
+
+    <string name="auth_tab_redirect_uri">https://app.singpass.gov.sg/rp/sample/authtab</string>
+    <string name="auth_tab_custom_scheme_redirect_uri">sg.gov.singpass.app://app.singpass.gov.sg/rp/sample/authtab</string>
+    <string name="auth_tab_redirect_host">app.singpass.gov.sg</string>
+    <string name="auth_tab_redirect_path">/rp/sample/authtab</string>
+
     <string name="client_assertion_type">urn:ietf:params:oauth:client-assertion-type:jwt-bearer</string>
 
-    <string name="myinfo_client_id">STG2-MYINFO-SELF-TEST</string>
-    <string name="myinfo_client_id_v3">STG2-MYINFO-DEMO-APP</string>
-    <string name="myinfo_scope">name</string>
+    <string name="client_id">pJ4rxHxQBiGtHSbNCLUxoD3fUVi850SD</string>
+    <string name="auth_scope">openid</string>
+
+    <string name="userinfo_client_id">f5bB48EimWijVzti0f7J5oqbHyLVvckX</string>
+    <string name="userinfo_scope">openid name ownerprivate</string>
+
+    <string name="sfv_client_id">il5h5d8hITmpPvf9zkqU1m5Iksnj0aqW</string>
+    <string name="sfv_scope">openid</string>
+    <string name="rp_pubkey_pem">"-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEkS9BN86wnQKLo1K7svYdBVGbxwW8\n/V6KHl0anZkZ6zgW40HPSNlEYMpkp8Rl6+wze6JHYEJ0kV98z/4M3/kfCQ==\n-----END PUBLIC KEY-----"</string>
 </resources>

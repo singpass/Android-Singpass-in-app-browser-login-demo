@@ -1,5 +1,6 @@
-package sg.ndi.sample
+package sg.ndi.sample.utility
 
+import android.annotation.SuppressLint
 import android.app.Application
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
@@ -8,6 +9,7 @@ import android.os.Build
 
 object PackageUtils {
 
+    @SuppressLint("WrongConstant")
     private fun PackageManager.getPackageInfoCompat(packageName: String, flags: Number): PackageInfo {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             getPackageInfo(packageName, PackageManager.PackageInfoFlags.of(flags.toLong()))
@@ -20,7 +22,7 @@ object PackageUtils {
         return try {
             val packageManager = application.packageManager
             val packageInfo = packageManager.getPackageInfoCompat("sg.ndi.sp", 0)
-            packageInfo.applicationInfo.enabled
+            packageInfo.applicationInfo?.enabled == true
         } catch (ex: NameNotFoundException) {
             false
         } catch (e: Exception) {

@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="singpass_text">@color/white</color>
+    <color name="translucent_statusbar_navbar">#80000000</color>
+
+    <color name="splash_i_man_start_color">@android:color/white</color>
+    <color name="splash_i_man_end_color">@android:color/white</color>
+    <color name="singpass_logo_color">@android:color/white</color>
+    <color name="singpass_btn_border">@android:color/transparent</color>
 </resources>

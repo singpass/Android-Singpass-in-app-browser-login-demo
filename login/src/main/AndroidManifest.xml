@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <application>
+        <activity
+            android:name=".activity.SingpassLoginHeadlessActivity"
+            android:theme="@style/Theme.Transparent"
+            >
+
+        </activity>
+
+        <activity-alias
+            android:targetActivity=".activity.SingpassLoginHeadlessActivity"
+            android:name=".AuthTabActivityAlias"
+            android:exported="true"
+            android:label="@string/app_name">
+
+            <intent-filter android:autoVerify="true" >
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="https"
+                    android:host="${host}"
+                    android:path="${path}"/>
+            </intent-filter>
+
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="https"
+                    android:host="${host}"
+                    android:path="${path}/"/>
+            </intent-filter>
+        </activity-alias>
+
+        <activity
+            android:name="net.openid.appauth.RedirectUriReceiverActivity"
+            tools:node="replace">
+        </activity>
+
+        <activity-alias
+            android:targetActivity="net.openid.appauth.RedirectUriReceiverActivity"
+            android:name=".AppAuthActivityAlias"
+            android:exported="true"
+            android:label="@string/app_name">
+
+            <intent-filter android:autoVerify="true" >
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="https"
+                    android:host="${host}"
+                    android:path="${path}"/>
+            </intent-filter>
+
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="https"
+                    android:host="${host}"
+                    android:path="${path}/"/>
+            </intent-filter>
+        </activity-alias>
+
+    </application>
+</manifest>

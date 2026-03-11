@@ -28,4 +28,16 @@
     <color name="grey90">#ff212121</color>
     <color name="grey100">#ff141414</color>
 
+    <color name="translucent_statusbar_navbar">#80FFFFFF</color>
+    <color name="translucent">#66000000</color><!-- 40% black -->
+
+    <color name="appbarcolor">@color/primary</color>
+    <color name="appbarcolordark">@color/grey80</color>
+
+    <color name="singpass_red">#fff4333d</color>
+
+    <color name="splash_i_man_start_color">@color/grey30</color>
+    <color name="splash_i_man_end_color">@android:color/black</color>
+    <color name="singpass_logo_color">@color/singpass_red</color>
+    <color name="singpass_btn_border">#ffc8c9cc</color>
 </resources>

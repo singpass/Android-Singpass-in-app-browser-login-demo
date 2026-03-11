@@ -18,3 +18,4 @@ app.properties
 keystore.props.file
 /.idea/**
 /gradle/wrapper/gradle-wrapper.jar
+/app/google-services.json

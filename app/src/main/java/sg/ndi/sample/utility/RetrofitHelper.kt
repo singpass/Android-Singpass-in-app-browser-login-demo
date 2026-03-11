@@ -1,29 +1,38 @@
-package sg.ndi.sample
+package sg.ndi.sample.utility
 
 import android.util.Log
+import kotlinx.serialization.json.Json
+import okhttp3.MediaType.Companion.toMediaType
 import java.util.concurrent.TimeUnit
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
-import retrofit2.converter.moshi.MoshiConverterFactory
+import retrofit2.converter.kotlinx.serialization.asConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
+import sg.ndi.sample.BuildConfig
 
 object RetrofitHelper {
 
     @Volatile private var INSTANCE: Retrofit? = null
 
     fun getInstance(): Retrofit {
+
+        val networkJson = Json { ignoreUnknownKeys = true }
+
         return INSTANCE ?: synchronized(this) {
-            INSTANCE ?: Retrofit.Builder().baseUrl(BuildConfig.backendBaseUrl)
+            val baseUrl =
+//                "http://10.10.3.82:5001/gcci01kev4zvb32mbn80hn45v2dqjx/asia-southeast1/"
+              "https://asia-southeast1-gcci01kev4zvb32mbn80hn45v2dqjx.cloudfunctions.net"
+            INSTANCE ?: Retrofit.Builder().baseUrl(baseUrl)
                 .client(createOKHttpClient())
                 .addConverterFactory(ScalarsConverterFactory.create())
-                .addConverterFactory(MoshiConverterFactory.create())
+                .addConverterFactory(networkJson.asConverterFactory("application/json; charset=utf-8".toMediaType()))
                 .build()
                 .also { INSTANCE = it }
         }
     }
 
-    private fun createOKHttpClient(): OkHttpClient  {
+    private fun createOKHttpClient(): OkHttpClient {
 
         val okhttpLogger = createHttpLoggingInterceptor()
 

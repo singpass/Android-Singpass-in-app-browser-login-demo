@@ -1,6 +1,7 @@
 package sg.ndi.sample.ui.theme
 
 import androidx.compose.material.Typography
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.PlatformTextStyle
 import androidx.compose.ui.text.TextStyle
@@ -103,7 +104,7 @@ val typography = Typography(
     // button base
     button = TextStyle(
         fontWeight = FontWeight.Bold,
-        fontSize = 14.sp,
+        fontSize = 16.sp,
         letterSpacing = 0.sp,
         lineHeight = TextUnit(20f, TextUnitType.Sp),
         platformStyle = PlatformTextStyle(includeFontPadding = false)
