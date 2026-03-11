@@ -1,19 +1,9 @@
-# Do NOT use [WebViews](https://developer.android.com/reference/android/webkit/WebView) for mobile app Singpass Logins
+# Singpass Login for Mobile Applications
 
-Usage of WebViews for web logins are not recommended (and not allow for Singpass) due to security and usability reasons documented in [RFC8252](https://www.rfc-editor.org/rfc/rfc8252). Google has done the [same](https://developers.googleblog.com/2021/06/upcoming-security-changes-to-googles-oauth-2.0-authorization-endpoint.html) for Google Sign-in in 2021.
+This repository has codes for a sample Android application implementing the recommended [Proof Key for Code Exchange (PKCE)](https://www.rfc-editor.org/rfc/rfc7636) for Singpass logins.
+This sample application demonstrates usage of [Chrome Auth Tabs](https://developer.chrome.com/docs/android/custom-tabs/guide-auth-tab) with [Chrome Custom Tabs](https://developer.chrome.com/docs/android/custom-tabs/#:~:text=Custom%20Tabs%20is%20a%20browser,to%20resort%20to%20a%20WebView.) or external mobile web browser as a fallback via the Android [AppAuth](https://github.com/openid/AppAuth-Android) library.
 
-> This best current practice requires that only external user-agents
-like the browser are used for OAuth by native apps.  It documents how
-native apps can implement authorization flows using the browser as
-the preferred external user-agent as well as the requirements for
-authorization servers to support such usage.
-
-*Quoted from RFC8252.*
-
-This repository has codes for a sample Android application implementing the recommended [Proof Key for Code Exchange (PKCE)](https://www.rfc-editor.org/rfc/rfc7636) for Singpass logins. 
-This sample application demonstrates usage of [Chrome Auth Tab](https://developer.chrome.com/docs/android/custom-tabs/guide-auth-tab) or [Chrome Custom Tabs](https://developer.chrome.com/docs/android/custom-tabs/#:~:text=Custom%20Tabs%20is%20a%20browser,to%20resort%20to%20a%20WebView.) with external mobile web browser as a fallback via the Android [AppAuth](https://github.com/openid/AppAuth-Android) library.
-
-# Sequence Diagram
+## Sequence Diagram
 
 ### FAPI2 Singpass Login on mobile app
 ![Sequence Diagram](FAPI2_Singpass_Login.svg)
@@ -25,14 +15,26 @@ This sample application demonstrates usage of [Chrome Auth Tab](https://develope
 Developers can use the login module in this repository to integrate the Singpass login mobile flow. Read the [ReadMe.md](/login/ReadMe.md) of the login module for integration instructions.
 
 # Other Notes
-- Do **NOT** use the query param `app_launch_url` when opening the authorization endpoint webpage for Android as it will break the flow with [AppAuth](https://github.com/openid/AppAuth-Android) library.
+-  Do NOT use [WebViews](https://developer.android.com/reference/android/webkit/WebView) for mobile app Singpass Logins
+
+Usage of WebViews for web logins are not recommended (and not allowed for Singpass) due to security and usability reasons documented in [RFC8252](https://www.rfc-editor.org/rfc/rfc8252). Google has done the [same](https://developers.googleblog.com/2021/06/upcoming-security-changes-to-googles-oauth-2.0-authorization-endpoint.html) for Google Sign-in in 2021.
+
+> This best current practice requires that only external user-agents
+like the browser are used for OAuth by native apps.  It documents how
+native apps can implement authorization flows using the browser as
+the preferred external user-agent as well as the requirements for
+authorization servers to support such usage.
+
+*Quoted from RFC8252.*
+
+- Do **NOT** use the query param `app_launch_url` when opening the authorization endpoint webpage for Android, its not needed and will break the redirection flow.
   <br><br>
 - FAPI2 for Singpass only allows use of [Android AppLinks](https://developer.android.com/training/app-links/about) or [iOS Universal link](https://developer.apple.com/documentation/xcode/supporting-associated-domains) for your `redirect_uri`. E.g. `https://app.singpass.gov.sg/rpsample`
   <br><br>
 - An additional query parameter, `redirect_uri_https_type=app_claimed_https` should be added to the authorization endpoint when launching in the in-app browser. <br><br>
 An example of such a URL is:<br><br>
   https://stg-id.singpass.gov.sg/fapi/auth?client_id=pJ4rxHxQBiGtHSbNCLUxoD3fUVi850SD&request_uri=urn%3Aietf%3Aparams%3Aoauth%3Arequest_uri%3AOdyf1eyQg8LxYrbHooRPM&redirect_uri_https_type=app_claimed_https
-<br><br>This will present the user with a interstitial screen with a button if the web browser does not redirect the user back to the mobile app automatically.
+<br><br>This will present the user with an interstitial screen with a button if the web browser does not redirect the user back to the mobile app automatically.
 
 ## FAQ
 
@@ -73,7 +75,3 @@ You can tell if the Singpass login page is opened in a external web browser by l
 - As of 9th June 2023 we are seeing a bug on the `Samsung Internet Browser v21.0.0.41` affecting app linking where customs tabs from Samsung Internet browser will close itself when launching Singpass app after clicking on QR code. Please refer to [this](#Create-the-OAuth-authorization-service) to see how restrict specific browsers usage. Demo of the aforementioned behavior below, as compare to the expected behavior when using [Chrome](#Singpass-Login)
   <br><br>
   <img src="samsung_internet_browser_issue.gif" alt="Myinfo Mockpass flow video" width="300px" height="480px"></img>
-
-## Polling 
-
-Vote [here](https://github.com/singpass/Android-Singpass-in-app-browser-login-demo/discussions/1) to indicate if you would like a library that handles all these implementation

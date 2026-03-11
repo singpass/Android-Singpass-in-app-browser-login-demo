@@ -20,9 +20,7 @@ object RetrofitHelper {
         val networkJson = Json { ignoreUnknownKeys = true }
 
         return INSTANCE ?: synchronized(this) {
-            val baseUrl =
-//                "http://10.10.3.82:5001/gcci01kev4zvb32mbn80hn45v2dqjx/asia-southeast1/"
-              "https://asia-southeast1-gcci01kev4zvb32mbn80hn45v2dqjx.cloudfunctions.net"
+            val baseUrl = "https://asia-southeast1-gcci01kev4zvb32mbn80hn45v2dqjx.cloudfunctions.net"
             INSTANCE ?: Retrofit.Builder().baseUrl(baseUrl)
                 .client(createOKHttpClient())
                 .addConverterFactory(ScalarsConverterFactory.create())
