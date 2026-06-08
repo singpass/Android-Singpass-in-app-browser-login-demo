@@ -284,7 +284,6 @@ internal class SingpassLoginHeadlessActivityViewModel(val app: Application) : An
                         val authorizationEndpointUri = "https://stg-id.singpass.gov.sg/fapi/auth".toUri().buildUpon()
                             .appendQueryParameter("client_id", loginParam.clientId)
                             .appendQueryParameter("request_uri", loginParam.requestUri)
-                            .appendQueryParameter("redirect_uri_https_type", "app_claimed_https")
                             .build()
 
                         Log.d("startSingpassAuthorizationFlow", "SingpassFapiLoginParam: $authorizationEndpointUri")
