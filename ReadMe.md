@@ -31,7 +31,7 @@ authorization servers to support such usage.
   <br><br>
 - FAPI2 for Singpass only allows use of [Android AppLinks](https://developer.android.com/training/app-links/about) or [iOS Universal link](https://developer.apple.com/documentation/xcode/supporting-associated-domains) for your `redirect_uri`. E.g. `https://app.singpass.gov.sg/rpsample`
   <br><br>
-- An additional query parameter, `redirect_uri_https_type=app_claimed_https` should be added to the `/fapi/par` endpoint when obtaining the `request_uri` to launch in the in-app browser. Adding the query param to the `/fapi/par` will present the user with an interstitial screen with a button if the web browser does not redirect the user back to the mobile app automatically.
+- An additional parameter, `redirect_uri_https_type=app_claimed_https` should be added to the request body of the `/fapi/par` endpoint when obtaining the `request_uri` to launch in the in-app browser. Adding the additional parameter to the `/fapi/par` request body will present the user with an interstitial screen with a button if the web browser does not redirect the user back to the mobile app automatically. Refer to [Singpass Specific Parameters](https://docs.developer.singpass.gov.sg/docs/technical-specifications/integration-guide/1.-authorization-request#singpass-specific-parameters) 
 
 ## FAQ
 
