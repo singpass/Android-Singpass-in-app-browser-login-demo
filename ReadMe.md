@@ -27,9 +27,9 @@ authorization servers to support such usage.
 
 *Quoted from RFC8252.*
 
-- Do **NOT** use the query param `app_launch_url` when opening the authorization endpoint webpage for Android, its not needed and will break the redirection flow.
+- Do **NOT** use the request body parameter `app_launch_url` when in the /fapi/par when requesting for the requestUri for launching the authorization endpoint webpage for Android, its not needed and will break the redirection flow. Refer to [Singpass Specific Parameters](https://docs.developer.singpass.gov.sg/docs/technical-specifications/integration-guide/1.-authorization-request#singpass-specific-parameters)
   <br><br>
-- FAPI2 for Singpass only allows use of [Android AppLinks](https://developer.android.com/training/app-links/about) or [iOS Universal link](https://developer.apple.com/documentation/xcode/supporting-associated-domains) for your `redirect_uri`. E.g. `https://app.singpass.gov.sg/rpsample`
+- FAPI2 for Singpass **ONLY** allows use of [Android AppLinks](https://developer.android.com/training/app-links/about) or [iOS Universal link](https://developer.apple.com/documentation/xcode/supporting-associated-domains) for your `redirect_uri`. E.g. `https://app.singpass.gov.sg/rpsample`
   <br><br>
 - An additional parameter, `redirect_uri_https_type=app_claimed_https` should be added to the request body of the `/fapi/par` endpoint when obtaining the `request_uri` to launch in the in-app browser. Adding the additional parameter to the `/fapi/par` request body will present the user with an interstitial screen with a button if the web browser does not redirect the user back to the mobile app automatically. Refer to [Singpass Specific Parameters](https://docs.developer.singpass.gov.sg/docs/technical-specifications/integration-guide/1.-authorization-request#singpass-specific-parameters) 
 
